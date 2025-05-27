@@ -20,7 +20,7 @@ interface TestContextType {
 
 const TestContext = createContext<TestContextType | undefined>(undefined);
 
-export const useTest = () => {
+export const useTest = (): TestContextType => {
   const context = useContext(TestContext);
   if (context === undefined) {
     throw new Error('useTest must be used within a TestProvider');
@@ -123,21 +123,23 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setTestResult(null);
   };
 
+  const contextValue: TestContextType = {
+    currentQuestionIndex,
+    answers,
+    isTestStarted,
+    isTestCompleted,
+    isCalculating,
+    currentQuestion,
+    testResult,
+    startTest,
+    answerQuestion,
+    nextQuestion,
+    calculateResults,
+    resetTest
+  };
+
   return (
-    <TestContext.Provider value={{
-      currentQuestionIndex,
-      answers,
-      isTestStarted,
-      isTestCompleted,
-      isCalculating,
-      currentQuestion,
-      testResult,
-      startTest,
-      answerQuestion,
-      nextQuestion,
-      calculateResults,
-      resetTest
-    }}>
+    <TestContext.Provider value={contextValue}>
       {children}
     </TestContext.Provider>
   );
