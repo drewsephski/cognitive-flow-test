@@ -31,13 +31,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionNumber, t
 
   const getQuestionTypeLabel = (type: string) => {
     const labels = {
-      logical: 'Logical Reasoning',
-      numerical: 'Numerical Reasoning', 
-      verbal: 'Verbal Reasoning',
-      spatial: 'Spatial Reasoning',
-      abstract: 'Abstract Reasoning'
+      logical: 'Logic (Good Luck)',
+      numerical: 'Math (Try Not to Cry)', 
+      verbal: 'Words (Hopefully You Can Read)',
+      spatial: 'Visual Thinking (Use Your Brain)',
+      abstract: 'Pattern Recognition (This Should Be Fun)'
     };
     return labels[type as keyof typeof labels] || type;
+  };
+
+  const getButtonText = () => {
+    if (questionNumber === totalQuestions) {
+      return "Submit & Face Your Fate";
+    }
+    return selectedAnswer !== null ? "Next Question (No Going Back)" : "Pick an Answer First, Genius";
   };
 
   return (
@@ -52,28 +59,12 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionNumber, t
                 {getQuestionTypeLabel(question.type)}
               </span>
               <span className="text-sm text-muted-foreground">
-                Question {questionNumber}
+                Question {questionNumber} of {totalQuestions}
               </span>
             </div>
             <CardTitle className="text-xl font-semibold leading-relaxed">
               {question.question}
             </CardTitle>
-            {question.imageUrl && question.type === 'spatial' && (
-              <div className="flex justify-center my-6">
-                <div className="text-6xl font-bold text-primary">
-                  {question.imageUrl}
-                </div>
-              </div>
-            )}
-            {question.type === 'abstract' && (
-              <div className="flex justify-center my-6 space-x-2">
-                <span className="text-3xl">○</span>
-                <span className="text-3xl">◐</span>
-                <span className="text-3xl">●</span>
-                <span className="text-3xl">◑</span>
-                <span className="text-3xl text-primary">?</span>
-              </div>
-            )}
           </CardHeader>
           <CardContent className="space-y-3">
             {question.options.map((option, index) => (
@@ -105,10 +96,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionNumber, t
               <Button 
                 onClick={handleNext}
                 disabled={selectedAnswer === null}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-lg font-semibold"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {questionNumber === totalQuestions ? 'Complete Test' : 'Next Question'}
+                {getButtonText()}
               </Button>
+              {selectedAnswer === null && (
+                <p className="text-sm text-muted-foreground text-center mt-2">
+                  Come on, pick something. We don't have all day.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

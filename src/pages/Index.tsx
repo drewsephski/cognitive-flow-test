@@ -4,13 +4,18 @@ import { TestProvider, useTest } from '../contexts/TestContext';
 import WelcomePage from '../components/WelcomePage';
 import QuestionCard from '../components/QuestionCard';
 import ResultsPage from '../components/ResultsPage';
+import LoadingResults from '../components/LoadingResults';
 import { questions } from '../data/questions';
 
 const TestContent: React.FC = () => {
-  const { isTestStarted, isTestCompleted, currentQuestion, currentQuestionIndex } = useTest();
+  const { isTestStarted, isTestCompleted, isCalculating, currentQuestion, currentQuestionIndex } = useTest();
 
   if (isTestCompleted) {
     return <ResultsPage />;
+  }
+
+  if (isCalculating) {
+    return <LoadingResults />;
   }
 
   if (isTestStarted && currentQuestion) {

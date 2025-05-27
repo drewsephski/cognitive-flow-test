@@ -12,49 +12,51 @@ const WelcomePage: React.FC = () => {
       <div className="w-full max-w-2xl fade-in">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent mb-4">
-            CognitiveVibe
+            FakeIQ™
           </h1>
           <p className="text-xl text-muted-foreground">
-            Discover your cognitive strengths through our quick 5-question assessment
+            The most accurate* IQ test on the internet
+          </p>
+          <p className="text-sm text-muted-foreground/70 mt-2">
+            *Accuracy not guaranteed. Results may vary. Side effects include inflated ego or crushing reality checks.
           </p>
         </div>
 
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold text-center">
-              Welcome to Your Cognitive Assessment
+              Think You're Smart? Prove It.
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <h3 className="font-semibold text-primary">What You'll Experience:</h3>
+                <h3 className="font-semibold text-primary">What You'll Get:</h3>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• 5 carefully crafted questions</li>
-                  <li>• Multiple cognitive domains</li>
-                  <li>• Estimated IQ score</li>
-                  <li>• Personal insights</li>
+                  <li>• 5 "challenging" questions</li>
+                  <li>• A completely made-up IQ score</li>
+                  <li>• Bragging rights (or shame)</li>
+                  <li>• The harsh truth about your intelligence</li>
                 </ul>
               </div>
               <div className="space-y-2">
-                <h3 className="font-semibold text-primary">Test Domains:</h3>
+                <h3 className="font-semibold text-primary">Warning:</h3>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• Logical Reasoning</li>
-                  <li>• Numerical Processing</li>
-                  <li>• Verbal Comprehension</li>
-                  <li>• Spatial Visualization</li>
-                  <li>• Abstract Pattern Recognition</li>
+                  <li>• May cause existential crisis</li>
+                  <li>• Results are scientifically meaningless</li>
+                  <li>• Your mom might still be proud</li>
+                  <li>• No refunds on shattered dreams</li>
                 </ul>
               </div>
             </div>
             
             <div className="bg-secondary/50 p-4 rounded-lg">
-              <h3 className="font-semibold mb-2 text-primary">Instructions:</h3>
+              <h3 className="font-semibold mb-2 text-primary">Rules (Because Apparently We Need Them):</h3>
               <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>• Take your time to read each question carefully</li>
-                <li>• Select the answer that best fits the problem</li>
-                <li>• You cannot go back to previous questions</li>
-                <li>• Complete all 5 questions to see your results</li>
+                <li>• No cheating (we're watching you)</li>
+                <li>• No crying when you fail</li>
+                <li>• No claiming the test is "biased" afterwards</li>
+                <li>• Yes, you can share your score and embarrass yourself publicly</li>
               </ul>
             </div>
             
@@ -63,12 +65,12 @@ const WelcomePage: React.FC = () => {
                 onClick={startTest}
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-4 text-lg font-semibold"
               >
-                Start Your Assessment
+                Let's See How Smart You Really Are
               </Button>
             </div>
             
             <p className="text-xs text-muted-foreground text-center">
-              This is an educational tool and not a substitute for professional cognitive assessment.
+              This test is for entertainment purposes only. If you take it seriously, that's your first mistake.
             </p>
           </CardContent>
         </Card>

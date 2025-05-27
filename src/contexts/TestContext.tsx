@@ -8,6 +8,7 @@ interface TestContextType {
   answers: Record<number, number>;
   isTestStarted: boolean;
   isTestCompleted: boolean;
+  isCalculating: boolean;
   currentQuestion: Question | null;
   testResult: TestResult | null;
   startTest: () => void;
@@ -32,6 +33,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
 
   const currentQuestion = isTestStarted && currentQuestionIndex < questions.length 
@@ -43,6 +45,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCurrentQuestionIndex(0);
     setAnswers({});
     setIsTestCompleted(false);
+    setIsCalculating(false);
     setTestResult(null);
   };
 
@@ -62,59 +65,53 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const calculateResults = () => {
-    let score = 0;
-    questions.forEach(question => {
-      if (answers[question.id] === question.correctAnswer) {
-        score++;
-      }
-    });
+    setIsCalculating(true);
+    
+    // Simulate loading for dramatic effect
+    setTimeout(() => {
+      let score = 0;
+      questions.forEach(question => {
+        if (answers[question.id] === question.correctAnswer) {
+          score++;
+        }
+      });
 
-    // Simple IQ estimation (this is not scientifically accurate)
-    const baseIQ = 100;
-    const scorePercentage = score / questions.length;
-    const estimatedIQ = Math.round(baseIQ + (scorePercentage - 0.5) * 40);
+      const getSarcasticResults = (score: number): { estimatedIQ: number; interpretation: string; strengths: string[] } => {
+        if (score <= 1) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 63, // 63-72
+            interpretation: "Below average. Thanks for wasting your time dumbass. Your score suggests an opportunity to develop your cognitive skills. Maybe start with picture books?",
+            strengths: ["Breathing (probably)", "Taking tests poorly", "Proving Darwin right", "Making others feel better about themselves"]
+          };
+        } else if (score <= 3) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 98, // 98-107
+            interpretation: "Average intelligence. NPC head ah. Your score indicates a solid foundation in various cognitive areas. You're perfectly mediocre - congratulations on being forgettable!",
+            strengths: ["Following basic instructions", "Blending into crowds", "Meeting minimum expectations", "Being adequately functional"]
+          };
+        } else {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 123, // 123-132
+            interpretation: "Your score reflects strong cognitive abilities across multiple domains. Too bad this shit isn't accurate, if you thought so, you might just be a dumbass. But hey, at least you can solve basic puzzles!",
+            strengths: ["Pattern recognition", "Not falling for obvious traps", "Reading comprehension", "Mild superiority complex"]
+          };
+        }
+      };
 
-    const getInterpretation = (score: number): { interpretation: string; strengths: string[] } => {
-      if (score === 5) {
-        return {
-          interpretation: "Exceptional performance! You demonstrate strong analytical and problem-solving abilities across multiple cognitive domains.",
-          strengths: ["Logical reasoning", "Pattern recognition", "Numerical processing", "Verbal comprehension", "Spatial visualization"]
-        };
-      } else if (score === 4) {
-        return {
-          interpretation: "Excellent cognitive performance! You show strong analytical skills with particular strengths in most areas tested.",
-          strengths: ["Abstract thinking", "Problem-solving", "Pattern recognition", "Analytical reasoning"]
-        };
-      } else if (score === 3) {
-        return {
-          interpretation: "Good cognitive performance! You demonstrate solid problem-solving abilities with room for continued growth.",
-          strengths: ["Logical thinking", "Basic reasoning", "Pattern identification"]
-        };
-      } else if (score === 2) {
-        return {
-          interpretation: "Fair performance. You show some cognitive strengths but may benefit from practicing analytical thinking exercises.",
-          strengths: ["Basic problem-solving", "Some pattern recognition"]
-        };
-      } else {
-        return {
-          interpretation: "This suggests areas for improvement in analytical thinking. Consider practicing logic puzzles and problem-solving exercises.",
-          strengths: ["Room for growth in all areas"]
-        };
-      }
-    };
+      const { estimatedIQ, interpretation, strengths } = getSarcasticResults(score);
 
-    const { interpretation, strengths } = getInterpretation(score);
+      const result: TestResult = {
+        score,
+        totalQuestions: questions.length,
+        estimatedIQ,
+        interpretation,
+        strengths
+      };
 
-    const result: TestResult = {
-      score,
-      totalQuestions: questions.length,
-      estimatedIQ: Math.max(70, Math.min(150, estimatedIQ)),
-      interpretation,
-      strengths
-    };
-
-    setTestResult(result);
-    setIsTestCompleted(true);
+      setTestResult(result);
+      setIsCalculating(false);
+      setIsTestCompleted(true);
+    }, 2000); // 2 second dramatic pause
   };
 
   const resetTest = () => {
@@ -122,6 +119,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setAnswers({});
     setIsTestStarted(false);
     setIsTestCompleted(false);
+    setIsCalculating(false);
     setTestResult(null);
   };
 
@@ -131,6 +129,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       answers,
       isTestStarted,
       isTestCompleted,
+      isCalculating,
       currentQuestion,
       testResult,
       startTest,
