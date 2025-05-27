@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Question, TestResult } from '../types/question';
 import { questions } from '../data/questions';
@@ -77,23 +76,23 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
 
       const getSarcasticResults = (score: number): { estimatedIQ: number; interpretation: string; strengths: string[] } => {
-        if (score <= 1) {
+        if (score <= 3) {
           return {
             estimatedIQ: Math.floor(Math.random() * 10) + 63, // 63-72
-            interpretation: "Below average. Thanks for wasting your time dumbass. Your score suggests an opportunity to develop your cognitive skills. Maybe start with picture books?",
-            strengths: ["Breathing (probably)", "Taking tests poorly", "Proving Darwin right", "Making others feel better about themselves"]
+            interpretation: "Below average intelligence detected. Thanks for wasting your time, genius. Your score suggests you might want to consider a career that doesn't require much thinking. Maybe start with picture books and work your way up to coloring inside the lines?",
+            strengths: ["Breathing (usually)", "Taking tests poorly", "Proving statistical averages exist", "Making others feel intellectually superior", "Professional disappointment generator"]
           };
-        } else if (score <= 3) {
+        } else if (score <= 6) {
           return {
             estimatedIQ: Math.floor(Math.random() * 10) + 98, // 98-107
-            interpretation: "Average intelligence. NPC head ah. Your score indicates a solid foundation in various cognitive areas. You're perfectly mediocre - congratulations on being forgettable!",
-            strengths: ["Following basic instructions", "Blending into crowds", "Meeting minimum expectations", "Being adequately functional"]
+            interpretation: "Average intelligence confirmed. Welcome to the land of mediocrity, population: most people. Your score indicates you're perfectly ordinary—congratulations on being the human equivalent of beige paint. You're not dumb, but you're not winning any Nobel prizes either.",
+            strengths: ["Following basic instructions", "Blending into crowds seamlessly", "Meeting minimum expectations", "Being adequately functional", "Master of the obvious", "Professional fence-sitter"]
           };
         } else {
           return {
             estimatedIQ: Math.floor(Math.random() * 10) + 123, // 123-132
-            interpretation: "Your score reflects strong cognitive abilities across multiple domains. Too bad this shit isn't accurate, if you thought so, you might just be a dumbass. But hey, at least you can solve basic puzzles!",
-            strengths: ["Pattern recognition", "Not falling for obvious traps", "Reading comprehension", "Mild superiority complex"]
+            interpretation: "Above average cognitive abilities detected. Your score reflects strong problem-solving skills across multiple domains. Too bad this test is about as scientifically valid as a horoscope. If you thought this was a real measure of intelligence, you might want to reconsider that 'smart' label.",
+            strengths: ["Pattern recognition", "Not falling for obvious traps", "Reading comprehension", "Mild superiority complex", "Overthinking simple problems", "Functional adult human"]
           };
         }
       };
@@ -111,7 +110,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setTestResult(result);
       setIsCalculating(false);
       setIsTestCompleted(true);
-    }, 2000); // 2 second dramatic pause
+    }, 2500); // Slightly longer for more suspense
   };
 
   const resetTest = () => {

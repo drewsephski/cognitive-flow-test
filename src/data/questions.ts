@@ -41,5 +41,50 @@ export const questions: Question[] = [
     options: ['1st place', '2nd place', '3rd place', 'Still losing at life'],
     correctAnswer: 1,
     explanation: 'You\'re in 2nd place now, not 1st. You passed the person who WAS in 2nd, so you took their spot. If you said 1st place, you might want to stick to easier puzzles.'
+  },
+  {
+    id: 6,
+    type: 'logical',
+    question: 'A man lives on the 20th floor of an apartment building. Every morning he takes the elevator down to the ground floor. When he comes home, he takes the elevator to the 10th floor and walks the rest... unless it\'s raining. Why?',
+    options: [
+      'He\'s claustrophobic after the 10th floor',
+      'He\'s too short to reach the 20th floor button',
+      'The elevator breaks after 10th floor',
+      'He enjoys the cardio workout'
+    ],
+    correctAnswer: 1,
+    explanation: 'He\'s too short to reach the 20th floor button, but can reach the umbrella when it\'s raining to press higher buttons. Classic lateral thinking that probably went right over your head.'
+  },
+  {
+    id: 7,
+    type: 'numerical',
+    question: 'If you have 30 white socks and 18 black socks in a drawer, how many socks do you need to pull out to guarantee you have a matching pair?',
+    options: ['2 socks', '3 socks', '18 socks', '30 socks'],
+    correctAnswer: 1,
+    explanation: 'Three socks. Worst case: you pull out one white, one black, then the third MUST match one of them. This is called the Pigeonhole Principle, which sounds more complicated than your thought process.'
+  },
+  {
+    id: 8,
+    type: 'verbal',
+    question: 'What word becomes shorter when you add two letters to it?',
+    options: ['Longer', 'Short', 'Word', 'Length'],
+    correctAnswer: 1,
+    explanation: 'The word "short" becomes "shorter" when you add "er" to it. A classic wordplay riddle that probably made you overthink basic English.'
+  },
+  {
+    id: 9,
+    type: 'spatial',
+    question: 'You have a 3x3 grid. If you place X\'s in all four corners, how many ways can you place an O in the remaining spaces to create a line of 3?',
+    options: ['0 ways', '1 way', '4 ways', '8 ways'],
+    correctAnswer: 0,
+    explanation: 'Zero ways. With X\'s in all corners, you\'ve blocked every possible line of 3 for O. Sometimes the answer is simpler than your brain wants it to be.'
+  },
+  {
+    id: 10,
+    type: 'abstract',
+    question: 'A farmer has 17 sheep. All but 9 die. How many sheep are left?',
+    options: ['8 sheep', '9 sheep', '0 sheep', '17 sheep'],
+    correctAnswer: 1,
+    explanation: 'Nine sheep are left. "All but 9 die" means all except 9 die, so 9 survive. Reading comprehension strikes again!'
   }
 ];
