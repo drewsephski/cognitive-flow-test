@@ -1,21 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Question, TestResult } from '../types/question';
 import { questions } from '../data/questions';
-
-interface TestContextType {
-  currentQuestionIndex: number;
-  answers: Record<number, number>;
-  isTestStarted: boolean;
-  isTestCompleted: boolean;
-  isCalculating: boolean;
-  currentQuestion: Question | null;
-  testResult: TestResult | null;
-  startTest: () => void;
-  answerQuestion: (questionId: number, answerIndex: number) => void;
-  nextQuestion: () => void;
-  calculateResults: () => void;
-  resetTest: () => void;
-}
+import { Question, TestResult } from '../types/question';
+import { TestContextType, AnswersMap } from '../types/test';
 
 const TestContext = createContext<TestContextType | undefined>(undefined);
 
@@ -29,12 +15,12 @@ export const useTest = (): TestContextType => {
 
 export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [answers, setAnswers] = useState<AnswersMap>({});
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
-
+  
   const currentQuestion = isTestStarted && currentQuestionIndex < questions.length 
     ? questions[currentQuestionIndex] 
     : null;
@@ -48,29 +34,57 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setTestResult(null);
   };
 
-  const answerQuestion = (questionId: number, answerIndex: number) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questionId]: answerIndex
-    }));
+  const answerQuestion = (questionId: number, answerIndex: number | null) => {
+    // Only update if answerIndex is a valid number
+    if (answerIndex !== null && answerIndex >= 0) {
+      setAnswers(prev => ({
+        ...prev,
+        [questionId]: answerIndex
+      }));
+    } else {
+      // If answer is invalid, remove it from the answers
+      const newAnswers = { ...answers };
+      delete newAnswers[questionId];
+      setAnswers(newAnswers);
+    }
   };
 
   const nextQuestion = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const hasAnswered = answers[currentQuestion.id] !== undefined;
+    
+    if (!hasAnswered) {
+      // Show error toast or prevent navigation
+      alert('Please answer the current question before proceeding.');
+      return;
+    }
+    
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
       calculateResults();
     }
   };
+  
+  // Add function to check if all questions are answered
+  const allQuestionsAnswered = () => {
+    return questions.every(question => answers[question.id] !== undefined);
+  };
 
   const calculateResults = () => {
+    if (!allQuestionsAnswered()) {
+      alert('Please answer all questions before submitting.');
+      return;
+    }
+    
     setIsCalculating(true);
     
     // Simulate loading for dramatic effect
     setTimeout(() => {
       let score = 0;
       questions.forEach(question => {
-        if (answers[question.id] === question.correctAnswer) {
+        const userAnswer = answers[question.id];
+        if (userAnswer === question.correctAnswer) {
           score++;
         }
       });
