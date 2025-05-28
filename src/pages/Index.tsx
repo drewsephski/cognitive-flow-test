@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { TestProvider, useTest } from '../contexts/TestContext';
-import WelcomePage from '../components/WelcomePage';
+import { TestProvider } from '@/contexts/TestContext';
+import { useTest } from '@/hooks/useTest';
+import { WelcomePage } from '../components/WelcomePage';
 import QuestionCard from '../components/QuestionCard';
 import ResultsPage from '../components/ResultsPage';
 import LoadingResults from '../components/LoadingResults';
@@ -20,7 +21,7 @@ const TestContent: React.FC = () => {
 
   if (isTestStarted && currentQuestion) {
     return (
-      <QuestionCard 
+      <QuestionCard
         question={currentQuestion}
         questionNumber={currentQuestionIndex + 1}
         totalQuestions={questions.length}

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Question } from '../types/question';
-import { useTest } from '../contexts/TestContext';
+import { useTest } from '@/hooks/useTest';
 import ProgressBar from './ProgressBar';
 
 interface QuestionCardProps {

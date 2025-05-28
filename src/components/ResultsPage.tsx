@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { useTest } from '../contexts/TestContext';
+import { useTest } from '@/hooks/useTest';
 import { Share2, Copy, RotateCcw, Check, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { questions } from '../data/questions';

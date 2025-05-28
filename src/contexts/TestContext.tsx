@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { questions } from '../data/questions';
 import { Question, TestResult } from '../types/question';
@@ -6,13 +6,7 @@ import { TestContextType, AnswersMap } from '../types/test';
 
 const TestContext = createContext<TestContextType | undefined>(undefined);
 
-export const useTest = (): TestContextType => {
-  const context = useContext(TestContext);
-  if (context === undefined) {
-    throw new Error('useTest must be used within a TestProvider');
-  }
-  return context;
-};
+export { TestContext };
 
 export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
