@@ -136,23 +136,24 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setTestResult(null);
   };
 
-  const contextValue: TestContextType = {
-    currentQuestionIndex,
-    answers,
-    isTestStarted,
-    isTestCompleted,
-    isCalculating,
-    currentQuestion,
-    testResult,
-    startTest,
-    answerQuestion,
-    nextQuestion,
-    calculateResults,
-    resetTest
-  };
-
   return (
-    <TestContext.Provider value={contextValue}>
+    <TestContext.Provider 
+      value={{
+        currentQuestionIndex,
+        answers,
+        isTestStarted,
+        isTestCompleted,
+        isCalculating,
+        currentQuestion: currentQuestion as Question,
+        testResult,
+        startTest,
+        answerQuestion,
+        nextQuestion,
+        calculateResults,
+        resetTest,
+        allQuestionsAnswered
+      }}
+    >
       {children}
     </TestContext.Provider>
   );
