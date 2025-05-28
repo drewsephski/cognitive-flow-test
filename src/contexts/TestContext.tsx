@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
 import { questions } from '../data/questions';
 import { Question, TestResult } from '../types/question';
 import { TestContextType, AnswersMap } from '../types/test';
@@ -109,23 +109,49 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
 
       const getSarcasticResults = (score: number): { estimatedIQ: number; interpretation: string; strengths: string[] } => {
-        if (score <= 3) {
+        const percentage = (score / questions.length) * 100;
+        
+        if (percentage >= 98) {
           return {
-            estimatedIQ: Math.floor(Math.random() * 10) + 63, // 63-72
-            interpretation: "Below average intelligence detected. Thanks for wasting your time, genius. Your score suggests you might want to consider a career that doesn't require much thinking. Maybe start with picture books and work your way up to coloring inside the lines?",
-            strengths: ["Breathing (usually)", "Taking tests poorly", "Proving statistical averages exist", "Making others feel intellectually superior", "Professional disappointment generator"]
+            estimatedIQ: Math.floor(Math.random() * 11) + 140, // 140-150 (Top 0.1%)
+            interpretation: "Genius-level intelligence detected. Your score is in the top 0.1% of test-takers. You're officially too smart for this test. Maybe try solving world hunger or something?",
+            strengths: ["Exceptional problem-solving", "Advanced pattern recognition", "Rapid learning ability", "Making others feel intellectually inadequate", "Overthinking everything"]
           };
-        } else if (score <= 6) {
+        } else if (percentage >= 95) {
           return {
-            estimatedIQ: Math.floor(Math.random() * 10) + 98, // 98-107
-            interpretation: "Average intelligence confirmed. Welcome to the land of mediocrity, population: most people. Your score indicates you're perfectly ordinary—congratulations on being the human equivalent of beige paint. You're not dumb, but you're not winning any Nobel prizes either.",
-            strengths: ["Following basic instructions", "Blending into crowds seamlessly", "Meeting minimum expectations", "Being adequately functional", "Master of the obvious", "Professional fence-sitter"]
+            estimatedIQ: Math.floor(Math.random() * 10) + 130, // 130-139 (Top 2%)
+            interpretation: "Superior intelligence confirmed. Your score places you in the top 2% of the population. You're officially smarter than 49 out of 50 people. Try not to let it go to your head.",
+            strengths: ["Advanced analytical skills", "Quick learning", "Complex problem-solving", "Making connections others miss", "Occasional bouts of impostor syndrome"]
+          };
+        } else if (percentage >= 90) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 120, // 120-129 (Top 10%)
+            interpretation: "High average to superior intelligence detected. You're in the top 10% of test-takers. Not quite genius material, but you can probably figure out IKEA furniture without the instructions.",
+            strengths: ["Strong reasoning skills", "Good memory", "Learning new concepts quickly", "Understanding complex ideas", "Occasional overconfidence"]
+          };
+        } else if (percentage >= 75) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 110, // 110-119 (Top 25%)
+            interpretation: "Above average intelligence confirmed. You're smarter than about 75% of the population. You probably did well in school without trying too hard, but don't get cocky.",
+            strengths: ["Solid reasoning ability", "Good problem-solving", "Learning from experience", "Practical intelligence", "Average at being above average"]
+          };
+        } else if (percentage >= 50) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 95, // 95-104 (Average)
+            interpretation: "Firmly in the average range. You're the statistical norm, the bell curve's best friend. Most people are right here with you, so at least you're not alone in your mediocrity.",
+            strengths: ["Basic reasoning", "Everyday problem-solving", "Following instructions", "Blending in with the crowd", "Being perfectly ordinary"]
+          };
+        } else if (percentage >= 25) {
+          return {
+            estimatedIQ: Math.floor(Math.random() * 10) + 85, // 85-94 (Below Average)
+            interpretation: "Low average intelligence detected. You might struggle with complex concepts, but hey, someone has to make the rest of us look good. On the bright side, you're probably really good at something that doesn't involve standardized tests.",
+            strengths: ["Simple tasks", "Concrete thinking", "Following clear instructions", "Not overcomplicating things", "Being happy with simple pleasures"]
           };
         } else {
           return {
-            estimatedIQ: Math.floor(Math.random() * 10) + 123, // 123-132
-            interpretation: "Above average cognitive abilities detected. Your score reflects strong problem-solving skills across multiple domains. Too bad this test is about as scientifically valid as a horoscope. If you thought this was a real measure of intelligence, you might want to reconsider that 'smart' label.",
-            strengths: ["Pattern recognition", "Not falling for obvious traps", "Reading comprehension", "Mild superiority complex", "Overthinking simple problems", "Functional adult human"]
+            estimatedIQ: Math.floor(Math.random() * 10) + 70, // 70-79 (Borderline)
+            interpretation: "Below average cognitive abilities detected. The good news is you made it this far in the test. The bad news is... well, let's just say you might want to stick to tasks that don't require much thinking. Ever considered a career in professional couch testing?",
+            strengths: ["Breathing (usually)", "Taking tests poorly", "Proving statistical averages exist", "Making others feel better about themselves", "Finding creative ways to avoid thinking"]
           };
         }
       };
