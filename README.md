@@ -1,4 +1,6 @@
-# FakeIQ Test "<https://fakeiq.netlify.app">
+# FakeIQ Test
+
+["https://fakeiq.netlify.app"]
 
 A satirical cognitive assessment application built with modern web technologies.
 
