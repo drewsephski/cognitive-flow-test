@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { toast } from '@/components/ui/use-toast';
 import { questions } from '../data/questions';
 import { Question, TestResult } from '../types/question';
 import { TestContextType, AnswersMap } from '../types/test';
@@ -20,9 +21,9 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isTestCompleted, setIsTestCompleted] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
-  
-  const currentQuestion = isTestStarted && currentQuestionIndex < questions.length 
-    ? questions[currentQuestionIndex] 
+
+  const currentQuestion = isTestStarted && currentQuestionIndex < questions.length
+    ? questions[currentQuestionIndex]
     : null;
 
   const startTest = () => {
@@ -52,20 +53,34 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const nextQuestion = () => {
     const currentQuestion = questions[currentQuestionIndex];
     const hasAnswered = answers[currentQuestion.id] !== undefined;
-    
+
     if (!hasAnswered) {
-      // Show error toast or prevent navigation
-      alert('Please answer the current question before proceeding.');
+      // Show error toast
+      toast({
+        title: 'Answer Required',
+        description: 'Please select an answer before proceeding.',
+        variant: 'destructive',
+      });
       return;
     }
-    
+
+    // Show explanation toast
+    const isCorrect = answers[currentQuestion.id] === currentQuestion.correctAnswer;
+    toast({
+      title: isCorrect ? 'Correct! 🎉' : 'Incorrect',
+      description: currentQuestion.explanation || 'No explanation available.',
+      variant: isCorrect ? 'default' : 'destructive',
+      duration: 5000, // 5 seconds
+    });
+
+    // Move to next question or calculate results
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
       calculateResults();
     }
   };
-  
+
   // Add function to check if all questions are answered
   const allQuestionsAnswered = () => {
     return questions.every(question => answers[question.id] !== undefined);
@@ -73,12 +88,16 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const calculateResults = () => {
     if (!allQuestionsAnswered()) {
-      alert('Please answer all questions before submitting.');
+      toast({
+        title: 'Answer Required',
+        description: 'Please answer all questions before submitting.',
+        variant: 'destructive',
+      });
       return;
     }
-    
+
     setIsCalculating(true);
-    
+
     // Simulate loading for dramatic effect
     setTimeout(() => {
       let score = 0;
@@ -137,7 +156,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <TestContext.Provider 
+    <TestContext.Provider
       value={{
         currentQuestionIndex,
         answers,
